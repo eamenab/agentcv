@@ -5,79 +5,65 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --background: 220 20% 97%;
+    --foreground: 240 10% 10%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 240 10% 10%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 240 10% 10%;
 
-    --primary: 211 100% 50%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 248 90% 66%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 330 90% 60%;
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 240 5% 96%;
+    --muted-foreground: 240 5% 40%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 190 90% 60%;
+    --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 240 6% 90%;
+    --input: 240 6% 90%;
+    --ring: 248 90% 66%;
 
-    --radius: 0.5rem;
-
-    --paper-light: 39 100% 97%;
-    --paper-dark: 208 33% 21%;
-    --paper-line: 211 15% 79%;
-
-    --font-sans: 'SF Pro Text', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-    --font-serif: 'Georgia', serif;
-    --font-mono: 'SF Mono', monospace;
-    --font-handwriting: 'Caveat', cursive;
-    --font-display: 'SF Pro Display', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    --radius: 0.75rem;
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+    --background: 240 10% 4%;
+    --foreground: 0 0% 98%;
 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
+    --card: 240 10% 8%;
+    --card-foreground: 0 0% 98%;
 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 240 10% 8%;
+    --popover-foreground: 0 0% 98%;
 
-    --primary: 217.2 91.2% 59.8%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --primary: 248 90% 66%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 330 90% 60%;
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: 240 6% 15%;
+    --muted-foreground: 240 5% 65%;
 
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 190 90% 60%;
+    --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-
-    --paper-light: 215 28% 17%;
-    --paper-dark: 215 28% 13%;
-    --paper-line: 215 28% 25%;
+    --border: 240 6% 20%;
+    --input: 240 6% 20%;
+    --ring: 248 90% 66%;
   }
 }
 
@@ -87,67 +73,55 @@
   }
 
   body {
-    @apply bg-background text-foreground font-sans antialiased;
+    @apply bg-background text-foreground font-sans antialiased transition-colors duration-300;
   }
 
-  /* Paper styles */
-  .paper {
-    @apply relative bg-paper-light dark:bg-paper-dark bg-paper-texture dark:bg-paper-texture-dark bg-lined-paper dark:bg-lined-paper-dark shadow-md;
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display font-bold tracking-tight;
   }
 
-  /* Typography */
-  h1, h2, h3 {
-    @apply font-serif tracking-tight;
+  /* Modern UI elements */
+  .action-card {
+    @apply relative overflow-hidden rounded-2xl bg-gradient-to-br from-card to-card/80 p-6 shadow-lg transition-all duration-300 hover:shadow-xl;
   }
 
-  h4, h5, h6 {
-    @apply font-sans tracking-tight;
-  }
-
-  .handwritten {
-    @apply font-handwriting;
-  }
-
-  /* Additional components */
-  .sticky-note {
-    @apply bg-yellow-100 dark:bg-yellow-900 p-4 rotate-1 shadow-sm;
+  .action-button {
+    @apply relative overflow-hidden rounded-full bg-gradient-to-r from-primary to-secondary px-8 py-3 font-medium text-white shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-lg;
   }
 }
 
 @layer components {
-  .notebook-page {
-    @apply paper p-6 rounded-md my-4;
-    padding-top: 30px;
+  .glow-text {
+    @apply bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent;
   }
 
-  .notebook-line {
-    @apply border-t border-paper-line my-7;
-  }
-
-  .notebook-header {
-    @apply absolute top-2 left-0 right-0 text-center text-sm font-mono text-gray-500 dark:text-gray-400;
+  .glass-panel {
+    @apply backdrop-blur-md bg-white/10 dark:bg-black/20 border border-white/20 dark:border-white/10 rounded-xl;
   }
 
   .suggestion-card {
-    @apply p-4 bg-white dark:bg-slate-800 rounded-md shadow-sm border border-gray-200 dark:border-gray-700 my-4 transition-all duration-300 hover:shadow-md;
+    @apply p-6 bg-gradient-to-br from-white to-muted dark:from-card dark:to-card/70 rounded-xl shadow-md border border-border/50 my-4 transition-all duration-300 hover:shadow-lg;
   }
-
-  .pen-annotation {
-    @apply font-handwriting text-blue-600 dark:text-blue-400;
+  
+  .feedback-card {
+    @apply bg-gradient-to-br from-accent/20 to-accent/5 p-6 rounded-xl shadow-md border border-accent/20;
   }
 }
 
 @layer utilities {
-  /* Custom animations */
-  .hover-lift {
-    @apply transition-all duration-200 hover:-translate-y-1 hover:shadow-md;
+  .animate-glow {
+    @apply relative;
   }
-
-  .paper-shadow {
-    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  
+  .animate-glow::after {
+    @apply absolute inset-0 -z-10 bg-gradient-to-r from-primary/40 to-secondary/40 opacity-0 blur-xl transition-opacity duration-1000 content-[''];
   }
-
-  .glassmorphism {
-    @apply backdrop-blur-md bg-white/30 dark:bg-black/30 border border-white/20 dark:border-white/10;
+  
+  .animate-glow:hover::after {
+    @apply opacity-100;
+  }
+  
+  .hover-scale {
+    @apply transition-transform duration-300 hover:scale-105;
   }
 }

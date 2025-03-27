@@ -25,11 +25,6 @@ export default {
 				ring: 'hsl(var(--ring))',
 				background: 'hsl(var(--background))',
 				foreground: 'hsl(var(--foreground))',
-				paper: {
-					light: 'hsl(var(--paper-light))',
-					dark: 'hsl(var(--paper-dark))',
-					line: 'hsl(var(--paper-line))',
-				},
 				primary: {
 					DEFAULT: 'hsl(var(--primary))',
 					foreground: 'hsl(var(--primary-foreground))'
@@ -57,29 +52,17 @@ export default {
 				card: {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
-				},
-				sidebar: {
-					DEFAULT: 'hsl(var(--sidebar-background))',
-					foreground: 'hsl(var(--sidebar-foreground))',
-					primary: 'hsl(var(--sidebar-primary))',
-					'primary-foreground': 'hsl(var(--sidebar-primary-foreground))',
-					accent: 'hsl(var(--sidebar-accent))',
-					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
-					border: 'hsl(var(--sidebar-border))',
-					ring: 'hsl(var(--sidebar-ring))'
 				}
 			},
 			fontFamily: {
-				sans: ['var(--font-sans)'],
-				serif: ['var(--font-serif)'],
-				mono: ['var(--font-mono)'],
-				handwriting: ['var(--font-handwriting)'],
-				display: ['var(--font-display)'],
+				sans: ['Inter', 'system-ui', 'sans-serif'],
+				display: ['Lexend', 'system-ui', 'sans-serif'],
+				mono: ['JetBrains Mono', 'monospace'],
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
-				md: 'calc(var(--radius) - 2px)',
-				sm: 'calc(var(--radius) - 4px)'
+				md: 'calc(var(--radius) - 0.25rem)',
+				sm: 'calc(var(--radius) - 0.5rem)'
 			},
 			keyframes: {
 				'accordion-down': {
@@ -105,6 +88,10 @@ export default {
 				'slide-out': {
 					from: { transform: 'translateX(0)' },
 					to: { transform: 'translateX(100%)' }
+				},
+				'pulse-glow': {
+					'0%, 100%': { opacity: '0.4' },
+					'50%': { opacity: '0.8' }
 				}
 			},
 			animation: {
@@ -113,13 +100,8 @@ export default {
 				'fade-in': 'fade-in 0.3s ease-out',
 				'fade-out': 'fade-out 0.3s ease-out',
 				'slide-in': 'slide-in 0.3s ease-out',
-				'slide-out': 'slide-out 0.3s ease-out'
-			},
-			backgroundImage: {
-				'paper-texture': "url('/paper-texture.png')",
-				'paper-texture-dark': "url('/paper-texture-dark.png')",
-				'lined-paper': 'repeating-linear-gradient(transparent, transparent 29px, hsl(var(--paper-line)) 29px, hsl(var(--paper-line)) 30px)',
-				'lined-paper-dark': 'repeating-linear-gradient(transparent, transparent 29px, hsl(var(--paper-line)) 29px, hsl(var(--paper-line)) 30px)',
+				'slide-out': 'slide-out 0.3s ease-out',
+				'pulse-glow': 'pulse-glow 2s ease-in-out infinite'
 			}
 		}
 	},
