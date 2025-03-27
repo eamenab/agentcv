@@ -6,6 +6,7 @@ import { SuggestionsList } from "@/components/SuggestionsList";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
 import { useNavigate } from "react-router-dom";
+import { ArrowRight } from "lucide-react";
 
 interface Suggestion {
   original: string;
@@ -19,7 +20,7 @@ interface SuggestionsResponse {
 
 const Index = () => {
   const [suggestions, setSuggestions] = useState<SuggestionsResponse | null>(null);
-  const { user, signIn } = useAuth();
+  const { user } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmitSuccess = (data: SuggestionsResponse) => {
@@ -47,18 +48,35 @@ const Index = () => {
               Get personalized suggestions to tailor your CV for specific job descriptions 
               using our AI-powered analysis.
             </p>
+
+            {!user && (
+              <Button 
+                onClick={() => navigate('/auth')} 
+                size="lg" 
+                className="mt-6 bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary"
+              >
+                Get Started
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+            )}
           </div>
           
           <CVForm onSubmitSuccess={handleSubmitSuccess} />
           
           {!user && (
-            <div className="mt-8 p-6 border border-border rounded-lg bg-muted/30 text-center">
+            <div className="mt-8 p-6 border border-primary/20 rounded-lg bg-primary/5 text-center">
               <h3 className="text-xl font-medium mb-2">Want more suggestions?</h3>
               <p className="text-muted-foreground mb-4">
                 Sign up to get <span className="font-bold">10 submissions</span> per day!
               </p>
-              <Button onClick={signIn} size="lg">
+              <Button 
+                onClick={() => navigate('/auth')}
+                variant="default"
+                size="lg"
+                className="bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary"
+              >
                 Sign up for free
+                <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </div>
           )}
