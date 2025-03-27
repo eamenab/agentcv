@@ -1,7 +1,7 @@
 
 import { useEffect, useState } from "react";
 import { useAuth } from "./useAuth";
-import { supabase } from "@/lib/supabaseClient";
+import { supabase } from "@/integrations/supabase/client";
 
 const LOCAL_STORAGE_KEY = "agentcv-usage";
 
