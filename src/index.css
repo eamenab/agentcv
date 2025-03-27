@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -13,7 +14,7 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 222.2 47.4% 11.2%;
+    --primary: 211 100% 50%;
     --primary-foreground: 210 40% 98%;
 
     --secondary: 210 40% 96.1%;
@@ -34,21 +35,15 @@
 
     --radius: 0.5rem;
 
-    --sidebar-background: 0 0% 98%;
+    --paper-light: 39 100% 97%;
+    --paper-dark: 208 33% 21%;
+    --paper-line: 211 15% 79%;
 
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --font-sans: 'SF Pro Text', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    --font-serif: 'Georgia', serif;
+    --font-mono: 'SF Mono', monospace;
+    --font-handwriting: 'Caveat', cursive;
+    --font-display: 'SF Pro Display', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   }
 
   .dark {
@@ -61,7 +56,7 @@
     --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 210 40% 98%;
+    --primary: 217.2 91.2% 59.8%;
     --primary-foreground: 222.2 47.4% 11.2%;
 
     --secondary: 217.2 32.6% 17.5%;
@@ -79,14 +74,10 @@
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
     --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+
+    --paper-light: 215 28% 17%;
+    --paper-dark: 215 28% 13%;
+    --paper-line: 215 28% 25%;
   }
 }
 
@@ -96,6 +87,67 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+
+  /* Paper styles */
+  .paper {
+    @apply relative bg-paper-light dark:bg-paper-dark bg-paper-texture dark:bg-paper-texture-dark bg-lined-paper dark:bg-lined-paper-dark shadow-md;
+  }
+
+  /* Typography */
+  h1, h2, h3 {
+    @apply font-serif tracking-tight;
+  }
+
+  h4, h5, h6 {
+    @apply font-sans tracking-tight;
+  }
+
+  .handwritten {
+    @apply font-handwriting;
+  }
+
+  /* Additional components */
+  .sticky-note {
+    @apply bg-yellow-100 dark:bg-yellow-900 p-4 rotate-1 shadow-sm;
+  }
+}
+
+@layer components {
+  .notebook-page {
+    @apply paper p-6 rounded-md my-4;
+    padding-top: 30px;
+  }
+
+  .notebook-line {
+    @apply border-t border-paper-line my-7;
+  }
+
+  .notebook-header {
+    @apply absolute top-2 left-0 right-0 text-center text-sm font-mono text-gray-500 dark:text-gray-400;
+  }
+
+  .suggestion-card {
+    @apply p-4 bg-white dark:bg-slate-800 rounded-md shadow-sm border border-gray-200 dark:border-gray-700 my-4 transition-all duration-300 hover:shadow-md;
+  }
+
+  .pen-annotation {
+    @apply font-handwriting text-blue-600 dark:text-blue-400;
+  }
+}
+
+@layer utilities {
+  /* Custom animations */
+  .hover-lift {
+    @apply transition-all duration-200 hover:-translate-y-1 hover:shadow-md;
+  }
+
+  .paper-shadow {
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  }
+
+  .glassmorphism {
+    @apply backdrop-blur-md bg-white/30 dark:bg-black/30 border border-white/20 dark:border-white/10;
   }
 }

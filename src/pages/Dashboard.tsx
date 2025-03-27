@@ -1,11 +1,11 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Header } from "@/components/Header";
 import { CVForm } from "@/components/CVForm";
 import { SuggestionsList } from "@/components/SuggestionsList";
-import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
 import { useNavigate } from "react-router-dom";
+import { Loader2 } from "lucide-react";
 
 interface Suggestion {
   original: string;
@@ -17,10 +17,17 @@ interface SuggestionsResponse {
   overall_feedback: string;
 }
 
-const Index = () => {
+const Dashboard = () => {
   const [suggestions, setSuggestions] = useState<SuggestionsResponse | null>(null);
-  const { user, signIn } = useAuth();
+  const { user, loading } = useAuth();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // Redirect if not authenticated and not loading
+    if (!loading && !user) {
+      navigate("/");
+    }
+  }, [user, loading, navigate]);
 
   const handleSubmitSuccess = (data: SuggestionsResponse) => {
     setSuggestions(data);
@@ -33,6 +40,14 @@ const Index = () => {
     }, 100);
   };
 
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
@@ -41,27 +56,14 @@ const Index = () => {
         <section className="mb-12">
           <div className="text-center mb-8">
             <h1 className="text-4xl font-serif font-bold mb-4">
-              Optimize Your CV for Each Application
+              Welcome to Your Dashboard
             </h1>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Get personalized suggestions to tailor your CV for specific job descriptions 
-              using our AI-powered analysis.
+            <p className="text-lg text-muted-foreground">
+              You have access to 10 CV submissions per day. Make them count!
             </p>
           </div>
           
           <CVForm onSubmitSuccess={handleSubmitSuccess} />
-          
-          {!user && (
-            <div className="mt-8 p-6 border border-border rounded-lg bg-muted/30 text-center">
-              <h3 className="text-xl font-medium mb-2">Want more suggestions?</h3>
-              <p className="text-muted-foreground mb-4">
-                Sign up to get <span className="font-bold">10 submissions</span> per day!
-              </p>
-              <Button onClick={signIn} size="lg">
-                Sign up for free
-              </Button>
-            </div>
-          )}
         </section>
         
         {suggestions && (
@@ -76,14 +78,14 @@ const Index = () => {
         <section className="mb-12">
           <div className="notebook-page">
             <h2 className="text-2xl font-serif font-bold mb-4">
-              How It Works
+              Tips for Better Results
             </h2>
-            <ol className="list-decimal pl-6 space-y-3">
-              <li>Paste your Google Docs CV URL</li>
-              <li>Add the job description you're applying for</li>
-              <li>Get tailored suggestions to improve your CV</li>
-              <li>Apply the changes directly to your Google Doc</li>
-            </ol>
+            <ul className="list-disc pl-6 space-y-3">
+              <li>Make sure your Google Doc is accessible (set to "Anyone with the link can view")</li>
+              <li>Include the full job description for more accurate suggestions</li>
+              <li>Try different versions of your CV for different job types</li>
+              <li>Implement suggestions and resubmit for further improvements</li>
+            </ul>
           </div>
         </section>
       </main>
@@ -97,4 +99,4 @@ const Index = () => {
   );
 };
 
-export default Index;
+export default Dashboard;
