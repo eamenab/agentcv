@@ -94,23 +94,12 @@ export function CVForm({ onSubmitSuccess }: CVFormProps) {
     try {
       setIsSubmitting(true);
       
-      // Determine which webhook URL to use based on language and source
-      let webhookUrl;
-      
-      if (language === 'es' && inputSource === 'pdf') {
-        webhookUrl = import.meta.env.VITE_WEBHOOK_ES_PDF;
-      } else if (language === 'es' && inputSource === 'gdoc') {
-        webhookUrl = import.meta.env.VITE_WEBHOOK_ES_GDOC;
-      } else if (language === 'en' && inputSource === 'pdf') {
-        webhookUrl = import.meta.env.VITE_WEBHOOK_EN_PDF;
-      } else {
-        webhookUrl = import.meta.env.VITE_WEBHOOK_EN_GDOC;
-      }
-      
+      const webhookUrl = import.meta.env.VITE_WEBHOOK_URL;
+
       if (!webhookUrl) {
         throw new Error(t('webhook_error'));
       }
-
+      
       let response;
       
       if (inputSource === 'pdf') {
@@ -118,7 +107,9 @@ export function CVForm({ onSubmitSuccess }: CVFormProps) {
         const formData = new FormData();
         formData.append('cv_file', cvFile as File);
         formData.append('job_description', jobDescription);
-        
+        formData.append('language', language);
+        formData.append('inputSource', inputSource);
+      
         response = await fetch(webhookUrl, {
           method: "POST",
           body: formData,
@@ -133,10 +124,12 @@ export function CVForm({ onSubmitSuccess }: CVFormProps) {
           body: JSON.stringify({
             cv_url: cvUrl,
             job_description: jobDescription,
+            language,
+            inputSource,
           }),
         });
       }
-
+      
       if (!response.ok) {
         throw new Error(`${t('submission_error')}: ${response.status}`);
       }
@@ -163,7 +156,7 @@ export function CVForm({ onSubmitSuccess }: CVFormProps) {
 
   return (
     <form onSubmit={handleSubmit} className="notebook-page space-y-6">
-      <div className="notebook-header">AgentCV · {t('app_tagline')}</div>
+      {/* <div className="notebook-header">AgentCV · {t('app_tagline')}</div> */}
 
       {/* CV Input Section */}
       <div className="space-y-2">

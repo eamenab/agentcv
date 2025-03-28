@@ -17,7 +17,7 @@ const translations = {
     'sign_out': 'Sign out',
     
     // Main page
-    'app_tagline': 'Optimize Your CV for Each Application',
+    'app_tagline': 'Optimize Your CV for Each Job Description',
     'app_description': 'Get personalized suggestions to tailor your CV for specific job descriptions using our AI-powered analysis.',
     'get_started': 'Get Started',
     'want_more': 'Want more suggestions?',
@@ -82,7 +82,7 @@ const translations = {
     'sign_out': 'Cerrar sesión',
     
     // Main page
-    'app_tagline': 'Optimiza tu CV para cada aplicación',
+    'app_tagline': 'Optimiza tu CV para cada oferta de trabajo',
     'app_description': 'Obtén sugerencias personalizadas para adaptar tu CV a descripciones de trabajo específicas utilizando nuestro análisis impulsado por IA.',
     'get_started': 'Comenzar',
     'want_more': '¿Quieres más sugerencias?',
@@ -96,7 +96,7 @@ const translations = {
     'cv_file_help': 'Sube una versión PDF de tu CV',
     'cv_url_help': 'Pega el enlace a tu CV de Google Docs (asegúrate de que sea accesible)',
     'job_description_label': 'Descripción del trabajo',
-    'job_description_placeholder': 'Pega la descripción del trabajo aquí...',
+    'job_description_placeholder': 'Pega la descripción de la oferta de trabajo aquí...',
     'job_description_help': 'La descripción del trabajo ayudará a adaptar las sugerencias al rol específico',
     'analyzing': 'Analizando...',
     'get_suggestions': 'Obtener sugerencias para CV',
@@ -112,7 +112,7 @@ const translations = {
     'check_suggestions': 'Revisa las sugerencias a continuación para mejorar tu CV.',
     
     // Suggestions
-    'overall_feedback': 'Retroalimentación general',
+    'overall_feedback': 'Comentarios Generales',
     'original': 'Original',
     'suggested_improvement': 'Mejora sugerida',
     'personalized_suggestions': 'Tus sugerencias personalizadas',

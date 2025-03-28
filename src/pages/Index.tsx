@@ -50,7 +50,7 @@ const Index = () => {
               {t('app_description')}
             </p>
 
-            {!user && (
+{/*             {!user && (
               <Button 
                 onClick={() => navigate('/auth')} 
                 size="lg" 
@@ -59,7 +59,7 @@ const Index = () => {
                 {t('get_started')}
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
-            )}
+            )} */}
           </div>
           
           <CVForm onSubmitSuccess={handleSubmitSuccess} />
