@@ -17,6 +17,7 @@ interface SuggestionsResponse {
   suggestions: Suggestion[];
   overall_feedback: string;
   compatibility_score?: number;
+  keywords?: string[];
 }
 
 interface SuggestionsListProps {
@@ -90,10 +91,26 @@ export function SuggestionsList({ data }: SuggestionsListProps) {
       )}
 
       {/* Overall Feedback as a sticky note */}
-      <div className="sticky-note max-w-xl mx-auto mb-8 font-handwriting text-lg">
+      <div className="sticky-note max-w-xl mx-auto mb-4 font-handwriting text-lg">
         <h3 className="text-xl mb-2 font-bold">{t('overall_feedback')}</h3>
         <p>{data.overall_feedback}</p>
       </div>
+
+      {/* Keywords Section */}
+      {data.keywords && data.keywords.length > 0 && (
+        <div className="mb-8 flex flex-wrap justify-center gap-2">
+          <h4 className="w-full text-center text-base font-medium mb-2">{t('key_skills')}</h4>
+          {data.keywords.map((keyword, index) => (
+            <Badge 
+              key={index} 
+              variant="outline" 
+              className="px-3 py-1 bg-primary/10 hover:bg-primary/20 transition-colors"
+            >
+              {keyword}
+            </Badge>
+          ))}
+        </div>
+      )}
 
       {/* Individual suggestions - Git diff style */}
       <div className="space-y-8">
