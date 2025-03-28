@@ -65,6 +65,8 @@ export function SuggestionsList({ data }: SuggestionsListProps) {
   }
 
   const compatibilityScore = data.compatibility_score || 0;
+  // Ensure keywords is an array before using map
+  const keywords = Array.isArray(data.keywords) ? data.keywords : [];
 
   return (
     <div className={cn("transition-opacity duration-500", visible ? "opacity-100" : "opacity-0")}>
@@ -97,10 +99,10 @@ export function SuggestionsList({ data }: SuggestionsListProps) {
       </div>
 
       {/* Keywords Section */}
-      {data.keywords && data.keywords.length > 0 && (
+      {keywords.length > 0 && (
         <div className="mb-8 flex flex-wrap justify-center gap-2">
           <h4 className="w-full text-center text-base font-medium mb-2">{t('key_skills')}</h4>
-          {data.keywords.map((keyword, index) => (
+          {keywords.map((keyword, index) => (
             <Badge 
               key={index} 
               variant="outline" 
