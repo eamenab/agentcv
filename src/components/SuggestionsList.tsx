@@ -16,7 +16,7 @@ interface Suggestion {
 interface SuggestionsResponse {
   suggestions: Suggestion[];
   overall_feedback: string;
-  compatibility_score?: number;
+  compatibilty_index?: string;
   keywords?: string[];
 }
 
@@ -60,34 +60,45 @@ export function SuggestionsList({ data }: SuggestionsListProps) {
       });
   };
 
+  const getBadgeVariant = (score) => {
+    if (score > 70) return "default";
+    if (score > 40) return "secondary";
+    return "destructive";
+  };
+  
+  const getCompatibilityText = (score) => {
+    if (score > 70) return t('high_compatibility');
+    if (score > 40) return t('medium_compatibility');
+    return t('low_compatibility');
+  };
+
   if (!data || !data.suggestions.length) {
     return null;
   }
 
-  const compatibilityScore = data.compatibility_score || 0;
+  const compatibilityScore = parseFloat(data.compatibilty_index.replace('%', '')) || 0;
   // Ensure keywords is an array before using map
   const keywords = Array.isArray(data.keywords) ? data.keywords : [];
 
   return (
     <div className={cn("transition-opacity duration-500", visible ? "opacity-100" : "opacity-0")}>
       {/* Compatibility Score */}
-      {data.compatibility_score !== undefined && (
+      {data?.compatibilty_index && (
         <div className="mb-6 p-4 border rounded-lg bg-card">
           <div className="flex justify-between items-center mb-2">
-            <h3 className="text-lg font-medium">
-              {t('compatibility_score')}
-            </h3>
-            <Badge variant={compatibilityScore > 70 ? "default" : compatibilityScore > 40 ? "secondary" : "destructive"} className="text-md px-3 py-1">
+            <h3 className="text-lg font-medium">{t('compatibility_score')}</h3>
+            <Badge variant={getBadgeVariant(compatibilityScore)} className="text-md px-3 py-1">
               {compatibilityScore}%
             </Badge>
           </div>
-          <Progress value={compatibilityScore} className="h-2" />
+          <div className="w-full h-2 rounded-full overflow-hidden bg-transparent">
+            <div
+              className="h-full bg-blue-500"
+              style={{ width: `${compatibilityScore}%` }}
+            />
+          </div>
           <p className="text-sm text-muted-foreground mt-2">
-            {compatibilityScore > 70 
-              ? t('high_compatibility') 
-              : compatibilityScore > 40 
-                ? t('medium_compatibility') 
-                : t('low_compatibility')}
+            {getCompatibilityText(compatibilityScore)}
           </p>
         </div>
       )}

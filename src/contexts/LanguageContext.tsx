@@ -48,6 +48,7 @@ const translations = {
     
     // Suggestions
     'overall_feedback': 'Overall Feedback',
+    'key_skills': "Key Skills",
     'original': 'Original',
     'suggested_improvement': 'Suggested Improvement',
     'personalized_suggestions': 'Your Personalized Suggestions',
@@ -117,6 +118,7 @@ const translations = {
     
     // Suggestions
     'overall_feedback': 'Comentarios Generales',
+    'key_skills': "Habilidades Clave",
     'original': 'Original',
     'suggested_improvement': 'Mejora sugerida',
     'personalized_suggestions': 'Tus sugerencias personalizadas',
