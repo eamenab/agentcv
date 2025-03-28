@@ -55,6 +55,10 @@ const translations = {
     'copied': 'Copied!',
     'failed_to_copy': 'Failed to copy',
     'try_again': 'Please try again',
+    'compatibility_score': 'Compatibility Score',
+    'high_compatibility': 'Your CV is highly compatible with this job description.',
+    'medium_compatibility': 'Your CV is moderately compatible with this job description.',
+    'low_compatibility': 'Your CV needs significant improvements for this job description.',
     
     // How it works
     'how_it_works': 'How It Works',
@@ -120,6 +124,10 @@ const translations = {
     'copied': '¡Copiado!',
     'failed_to_copy': 'Error al copiar',
     'try_again': 'Por favor intenta de nuevo',
+    'compatibility_score': 'Índice de compatibilidad',
+    'high_compatibility': 'Tu CV es altamente compatible con esta descripción de trabajo.',
+    'medium_compatibility': 'Tu CV es moderadamente compatible con esta descripción de trabajo.',
+    'low_compatibility': 'Tu CV necesita mejoras significativas para esta descripción de trabajo.',
     
     // How it works
     'how_it_works': 'Cómo funciona',
@@ -145,7 +153,7 @@ const translations = {
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
-  const [language, setLanguageState] = useState<Language>('es'); // Default to Spanish
+  const [language, setLanguageState] = useState<Language>('es'); // Set Spanish as default
 
   useEffect(() => {
     // Load language preference from localStorage on initial render

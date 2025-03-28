@@ -5,6 +5,8 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { Button } from "@/components/ui/button";
 import { CopyCheck, Copy } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { Progress } from "@/components/ui/progress";
+import { Badge } from "@/components/ui/badge";
 
 interface Suggestion {
   original: string;
@@ -14,6 +16,7 @@ interface Suggestion {
 interface SuggestionsResponse {
   suggestions: Suggestion[];
   overall_feedback: string;
+  compatibility_score?: number;
 }
 
 interface SuggestionsListProps {
@@ -49,8 +52,8 @@ export function SuggestionsList({ data }: SuggestionsListProps) {
       .catch(err => {
         console.error('Failed to copy text: ', err);
         toast({
-          title: "Failed to copy",
-          description: "Please try again",
+          title: t('failed_to_copy'),
+          description: t('try_again'),
           variant: "destructive",
         });
       });
@@ -60,8 +63,32 @@ export function SuggestionsList({ data }: SuggestionsListProps) {
     return null;
   }
 
+  const compatibilityScore = data.compatibility_score || 0;
+
   return (
     <div className={cn("transition-opacity duration-500", visible ? "opacity-100" : "opacity-0")}>
+      {/* Compatibility Score */}
+      {data.compatibility_score !== undefined && (
+        <div className="mb-6 p-4 border rounded-lg bg-card">
+          <div className="flex justify-between items-center mb-2">
+            <h3 className="text-lg font-medium">
+              {t('compatibility_score')}
+            </h3>
+            <Badge variant={compatibilityScore > 70 ? "default" : compatibilityScore > 40 ? "secondary" : "destructive"} className="text-md px-3 py-1">
+              {compatibilityScore}%
+            </Badge>
+          </div>
+          <Progress value={compatibilityScore} className="h-2" />
+          <p className="text-sm text-muted-foreground mt-2">
+            {compatibilityScore > 70 
+              ? t('high_compatibility') 
+              : compatibilityScore > 40 
+                ? t('medium_compatibility') 
+                : t('low_compatibility')}
+          </p>
+        </div>
+      )}
+
       {/* Overall Feedback as a sticky note */}
       <div className="sticky-note max-w-xl mx-auto mb-8 font-handwriting text-lg">
         <h3 className="text-xl mb-2 font-bold">{t('overall_feedback')}</h3>

@@ -1,7 +1,7 @@
 
 import { ThemeToggle } from "./ThemeToggle";
 import { Button } from "@/components/ui/button";
-import { Globe } from "lucide-react";
+import { Globe, Languages } from "lucide-react";
 import { Link } from 'react-router-dom';
 import { useLanguage } from "@/contexts/LanguageContext";
 import { 
@@ -10,13 +10,10 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger 
 } from "@/components/ui/dropdown-menu";
+import { Toggle } from "@/components/ui/toggle";
 
 export function Header() {
   const { language, setLanguage, t } = useLanguage();
-
-  const toggleLanguage = () => {
-    setLanguage(language === 'en' ? 'es' : 'en');
-  };
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -31,22 +28,24 @@ export function Header() {
         
         <div className="flex items-center gap-4">
           {/* Language toggle */}
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon" className="h-9 w-9 rounded-full">
-                <Globe className="h-4 w-4" />
-                <span className="sr-only">{language === 'en' ? 'Cambiar a español' : 'Switch to English'}</span>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={() => setLanguage('es')} className={language === 'es' ? "bg-primary/10" : ""}>
-                Español
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setLanguage('en')} className={language === 'en' ? "bg-primary/10" : ""}>
-                English
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <div className="border border-border/50 rounded-full p-1 flex">
+            <Toggle
+              pressed={language === 'es'}
+              onPressedChange={() => setLanguage('es')}
+              className={`px-3 rounded-full data-[state=on]:bg-primary/20 ${language === 'es' ? 'text-primary font-semibold' : ''}`}
+              aria-label="Toggle Spanish language"
+            >
+              ES
+            </Toggle>
+            <Toggle
+              pressed={language === 'en'}
+              onPressedChange={() => setLanguage('en')}
+              className={`px-3 rounded-full data-[state=on]:bg-primary/20 ${language === 'en' ? 'text-primary font-semibold' : ''}`}
+              aria-label="Toggle English language"
+            >
+              EN
+            </Toggle>
+          </div>
           
           <ThemeToggle />
         </div>
