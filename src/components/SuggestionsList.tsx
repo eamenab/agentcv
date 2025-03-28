@@ -35,7 +35,7 @@ export function SuggestionsList({ data }: SuggestionsListProps) {
   return (
     <div className={cn("transition-opacity duration-500", visible ? "opacity-100" : "opacity-0")}>
       {/* Overall Feedback as a sticky note */}
-      <div className="sticky-note max-w-xl mx-auto -rotate-1 mb-8 font-handwriting text-lg">
+      <div className="sticky-note max-w-xl mx-auto mb-8 font-handwriting text-lg">
         <h3 className="text-xl mb-2 font-bold">Overall Feedback</h3>
         <p>{data.overall_feedback}</p>
       </div>
@@ -47,8 +47,7 @@ export function SuggestionsList({ data }: SuggestionsListProps) {
             key={index} 
             className="notebook-page hover-lift"
             style={{ 
-              animationDelay: `${index * 100}ms`,
-              transform: `rotate(${Math.random() * 2 - 1}deg)`
+              animationDelay: `${index * 100}ms`
             }}
           >
             <div className="space-y-4">

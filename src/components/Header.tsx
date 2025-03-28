@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { LogOut, User as UserIcon } from "lucide-react";
+import { Link } from 'react-router-dom';
 
 export function Header() {
   const { user, signOut } = useAuth();
@@ -24,13 +25,13 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center justify-between">
-        <div className="flex items-center gap-2">
+        <Link to="/" className="flex items-center gap-2">
           <div className="relative transform rotate-3 bg-gradient-to-r from-primary/80 to-primary px-4 py-1 rounded-sm shadow-sm">
             <h1 className="font-handwriting text-2xl font-bold text-primary-foreground">
               AgentCV
             </h1>
           </div>
-        </div>
+        </Link>
         
         <div className="flex items-center gap-4">
           {user ? (
