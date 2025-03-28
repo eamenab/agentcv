@@ -174,31 +174,37 @@ export function CVForm({ onSubmitSuccess }: CVFormProps) {
               {t('cv_file_label')}
             </label>
             <div className="relative">
-              <Input
+              <input
                 ref={fileInputRef}
                 id="cv-file"
                 type="file"
                 accept=".pdf"
                 onChange={handleFileChange}
-                className="w-full cursor-pointer border-2 border-dashed border-primary/30 hover:border-primary/70 focus:border-primary transition-colors py-8 px-4 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20"
                 disabled={isSubmitting}
+                className="absolute inset-0 w-full h-full opacity-0 z-10 cursor-pointer"
               />
-              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                {!cvFile && (
-                  <div className="flex flex-col items-center text-muted-foreground">
+              <div
+                className={`w-full border-2 border-dashed rounded-md p-8 text-center transition-colors ${
+                  cvFile
+                    ? 'border-primary/70'
+                    : 'border-primary/30 hover:border-primary/50 animate-pulse-bg'
+                }`}
+              >
+                {!cvFile ? (
+                  <div className="flex flex-col items-center text-muted-foreground pointer-events-none">
                     <UploadCloud size={24} className="mb-2" />
                     <p className="text-sm">{t('cv_file_help')}</p>
                   </div>
+                ) : (
+                  <p className="text-sm text-primary flex items-center justify-center gap-2 pointer-events-none">
+                    <FileText size={16} />
+                    {cvFile.name}
+                  </p>
                 )}
               </div>
             </div>
-            {cvFile && (
-              <p className="text-sm text-primary flex items-center gap-2">
-                <FileText size={16} />
-                {cvFile.name}
-              </p>
-            )}
           </div>
+
         ) : (
           <div className="space-y-2">
             <label htmlFor="cv-url" className="block font-medium text-foreground">

@@ -63,7 +63,7 @@ const Index = () => {
           
           <CVForm onSubmitSuccess={handleSubmitSuccess} />
           
-          {!user && (
+{/*           {!user && (
             <div className="mt-8 p-6 border border-primary/20 rounded-lg bg-primary/5 text-center">
               <h3 className="text-xl font-medium mb-2">Want more suggestions?</h3>
               <p className="text-muted-foreground mb-4">
@@ -79,7 +79,7 @@ const Index = () => {
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </div>
-          )}
+          )} */}
         </section>
         
         {suggestions && (

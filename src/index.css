@@ -125,3 +125,13 @@
     @apply transition-transform duration-300 hover:scale-105;
   }
 }
+
+@keyframes pulse-bg {
+  0% { background-color: rgba(99, 102, 241, 0.05); }
+  50% { background-color: rgba(99, 102, 241, 0.1); }
+  100% { background-color: rgba(99, 102, 241, 0.05); }
+}
+
+.animate-pulse-bg {
+  animation: pulse-bg 3s ease-in-out infinite;
+}
