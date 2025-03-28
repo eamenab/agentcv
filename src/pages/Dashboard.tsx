@@ -4,6 +4,7 @@ import { Header } from "@/components/Header";
 import { CVForm } from "@/components/CVForm";
 import { SuggestionsList } from "@/components/SuggestionsList";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface Suggestion {
   original: string;
@@ -17,6 +18,7 @@ interface SuggestionsResponse {
 
 const Dashboard = () => {
   const [suggestions, setSuggestions] = useState<SuggestionsResponse | null>(null);
+  const { t } = useLanguage();
 
   const handleSubmitSuccess = (data: SuggestionsResponse) => {
     setSuggestions(data);
@@ -38,10 +40,10 @@ const Dashboard = () => {
           <section className="mb-12">
             <div className="text-center mb-8">
               <h1 className="text-4xl font-serif font-bold mb-4">
-                Welcome to Your Dashboard
+                {t('dashboard')}
               </h1>
               <p className="text-lg text-muted-foreground">
-                You have access to 10 CV submissions per day. Make them count!
+                {t('submissions_remaining')} <span className="font-bold">10</span> / 10
               </p>
             </div>
             
@@ -51,7 +53,7 @@ const Dashboard = () => {
           {suggestions && (
             <section id="suggestions" className="mb-12">
               <h2 className="text-3xl font-serif font-bold mb-6 text-center">
-                Your Personalized Suggestions
+                {t('personalized_suggestions')}
               </h2>
               <SuggestionsList data={suggestions} />
             </section>
@@ -60,13 +62,13 @@ const Dashboard = () => {
           <section className="mb-12">
             <div className="notebook-page">
               <h2 className="text-2xl font-serif font-bold mb-4">
-                Tips for Better Results
+                {t('how_it_works')}
               </h2>
               <ul className="list-disc pl-6 space-y-3">
-                <li>Make sure your Google Doc is accessible (set to "Anyone with the link can view")</li>
-                <li>Include the full job description for more accurate suggestions</li>
-                <li>Try different versions of your CV for different job types</li>
-                <li>Implement suggestions and resubmit for further improvements</li>
+                <li>{t('step_1')}</li>
+                <li>{t('step_2')}</li>
+                <li>{t('step_3')}</li>
+                <li>{t('step_4')}</li>
               </ul>
             </div>
           </section>
@@ -74,7 +76,7 @@ const Dashboard = () => {
         
         <footer className="py-6 border-t">
           <div className="container text-center text-sm text-muted-foreground">
-            <p>© {new Date().getFullYear()} AgentCV. All rights reserved.</p>
+            <p>© {new Date().getFullYear()} AgentCV. {t('all_rights_reserved')}</p>
           </div>
         </footer>
       </div>

@@ -1,4 +1,3 @@
-
 import { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -33,8 +32,8 @@ export function CVForm({ onSubmitSuccess }: CVFormProps) {
       const file = e.target.files[0];
       if (file.type !== 'application/pdf') {
         toast({
-          title: "Invalid file type",
-          description: "Please upload a PDF file",
+          title: t('pdf_only'),
+          description: t('pdf_only'),
           variant: "destructive",
         });
         return;
@@ -67,8 +66,8 @@ export function CVForm({ onSubmitSuccess }: CVFormProps) {
 
     if (inputSource === 'pdf' && !cvFile) {
       toast({
-        title: "CV file required",
-        description: "Please upload your CV as a PDF file",
+        title: t('file_required'),
+        description: t('file_required'),
         variant: "destructive",
       });
       return;
@@ -76,8 +75,8 @@ export function CVForm({ onSubmitSuccess }: CVFormProps) {
 
     if (inputSource === 'gdoc' && !cvUrl) {
       toast({
-        title: "URL required",
-        description: "Please enter your Google Docs CV URL",
+        title: t('url_required'),
+        description: t('url_required'),
         variant: "destructive",
       });
       return;
@@ -85,8 +84,8 @@ export function CVForm({ onSubmitSuccess }: CVFormProps) {
 
     if (!jobDescription) {
       toast({
-        title: t('job_description_label') + " required",
-        description: "Please enter the job description to get targeted suggestions",
+        title: t('job_desc_required'),
+        description: t('job_desc_required'),
         variant: "destructive",
       });
       return;
@@ -109,7 +108,7 @@ export function CVForm({ onSubmitSuccess }: CVFormProps) {
       }
       
       if (!webhookUrl) {
-        throw new Error("Webhook URL not configured for this combination of language and source");
+        throw new Error(t('webhook_error'));
       }
 
       let response;
@@ -139,7 +138,7 @@ export function CVForm({ onSubmitSuccess }: CVFormProps) {
       }
 
       if (!response.ok) {
-        throw new Error(`Server responded with ${response.status}`);
+        throw new Error(`${t('submission_error')}: ${response.status}`);
       }
 
       const data = await response.json();
@@ -147,14 +146,14 @@ export function CVForm({ onSubmitSuccess }: CVFormProps) {
       onSubmitSuccess(data);
       
       toast({
-        title: "Analysis complete!",
-        description: "Check out the suggestions below to improve your CV.",
+        title: t('analysis_complete'),
+        description: t('check_suggestions'),
       });
     } catch (error) {
       console.error("Error submitting form:", error);
       toast({
-        title: "Submission failed",
-        description: error instanceof Error ? error.message : "An unexpected error occurred",
+        title: t('submission_error'),
+        description: error instanceof Error ? error.message : t('submission_error'),
         variant: "destructive",
       });
     } finally {

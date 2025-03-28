@@ -37,6 +37,14 @@ const translations = {
     'get_suggestions': 'Get CV Suggestions',
     'use_google_docs': 'Use Google Docs URL instead',
     'use_pdf_upload': 'Upload PDF instead',
+    'url_required': 'Google Docs URL required',
+    'file_required': 'CV file required',
+    'job_desc_required': 'Job description required',
+    'pdf_only': 'Please upload a PDF file',
+    'webhook_error': 'Server configuration error',
+    'submission_error': 'Error submitting form',
+    'analysis_complete': 'Analysis complete!',
+    'check_suggestions': 'Check out the suggestions below to improve your CV.',
     
     // Suggestions
     'overall_feedback': 'Overall Feedback',
@@ -45,6 +53,8 @@ const translations = {
     'personalized_suggestions': 'Your Personalized Suggestions',
     'copy_suggestion': 'Copy suggestion',
     'copied': 'Copied!',
+    'failed_to_copy': 'Failed to copy',
+    'try_again': 'Please try again',
     
     // How it works
     'how_it_works': 'How It Works',
@@ -52,6 +62,15 @@ const translations = {
     'step_2': 'Add the job description you\'re applying for',
     'step_3': 'Get tailored suggestions to improve your CV',
     'step_4': 'Apply the changes directly to your document',
+    
+    // Dashboard
+    'welcome_dashboard': 'Welcome to Your Dashboard',
+    'access_info': 'You have access to 10 CV submissions per day. Make them count!',
+    'tips_for_better': 'Tips for Better Results',
+    'tip_1': 'Make sure your Google Doc is accessible (set to "Anyone with the link can view")',
+    'tip_2': 'Include the full job description for more accurate suggestions',
+    'tip_3': 'Try different versions of your CV for different job types',
+    'tip_4': 'Implement suggestions and resubmit for further improvements',
     
     // Footer
     'all_rights_reserved': 'All rights reserved.'
@@ -83,6 +102,14 @@ const translations = {
     'get_suggestions': 'Obtener sugerencias para CV',
     'use_google_docs': 'Usar URL de Google Docs en su lugar',
     'use_pdf_upload': 'Subir PDF en su lugar',
+    'url_required': 'URL de Google Docs requerida',
+    'file_required': 'Archivo CV requerido',
+    'job_desc_required': 'Descripción del trabajo requerida',
+    'pdf_only': 'Por favor sube un archivo PDF',
+    'webhook_error': 'Error de configuración del servidor',
+    'submission_error': 'Error al enviar el formulario',
+    'analysis_complete': '¡Análisis completado!',
+    'check_suggestions': 'Revisa las sugerencias a continuación para mejorar tu CV.',
     
     // Suggestions
     'overall_feedback': 'Retroalimentación general',
@@ -91,6 +118,8 @@ const translations = {
     'personalized_suggestions': 'Tus sugerencias personalizadas',
     'copy_suggestion': 'Copiar sugerencia',
     'copied': '¡Copiado!',
+    'failed_to_copy': 'Error al copiar',
+    'try_again': 'Por favor intenta de nuevo',
     
     // How it works
     'how_it_works': 'Cómo funciona',
@@ -98,6 +127,15 @@ const translations = {
     'step_2': 'Agrega la descripción del trabajo al que estás aplicando',
     'step_3': 'Obtén sugerencias personalizadas para mejorar tu CV',
     'step_4': 'Aplica los cambios directamente a tu documento',
+    
+    // Dashboard
+    'welcome_dashboard': 'Bienvenido a tu Panel',
+    'access_info': 'Tienes acceso a 10 envíos de CV por día. ¡Aprovéchalos!',
+    'tips_for_better': 'Consejos para mejores resultados',
+    'tip_1': 'Asegúrate de que tu Google Doc sea accesible (configúralo como "Cualquiera con el enlace puede ver")',
+    'tip_2': 'Incluye la descripción completa del trabajo para obtener sugerencias más precisas',
+    'tip_3': 'Prueba diferentes versiones de tu CV para diferentes tipos de trabajo',
+    'tip_4': 'Implementa las sugerencias y vuelve a enviar para obtener más mejoras',
     
     // Footer
     'all_rights_reserved': 'Todos los derechos reservados.'

@@ -35,7 +35,7 @@ export function Header() {
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon" className="h-9 w-9 rounded-full">
                 <Globe className="h-4 w-4" />
-                <span className="sr-only">Toggle language</span>
+                <span className="sr-only">{language === 'en' ? 'Cambiar a español' : 'Switch to English'}</span>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
