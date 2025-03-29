@@ -6,7 +6,7 @@ import { SuggestionsList } from "@/components/SuggestionsList";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
 import { useNavigate } from "react-router-dom";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Mail } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 interface Suggestion {
@@ -103,6 +103,20 @@ const Index = () => {
               <li>{t('step_3')}</li>
               <li>{t('step_4')}</li>
             </ol>
+          </div>
+        </section>
+        
+        <section className="mb-6 p-4 bg-primary/10 rounded-lg border-2 border-primary shadow-lg">
+          <div className="flex flex-col md:flex-row items-center gap-4">
+            <div className="rounded-full bg-primary p-3">
+              <Mail className="h-6 w-6 text-white" />
+            </div>
+            <div className="text-center md:text-left">
+              <h3 className="text-xl font-serif font-bold">{t('like_this_page')}</h3>
+              <p className="text-lg">
+                {t('contact_me_at')} <a href="mailto:eamenabar@zazsoluciones.cl" className="text-primary hover:underline font-medium">eamenabar@zazsoluciones.cl</a>
+              </p>
+            </div>
           </div>
         </section>
       </main>
