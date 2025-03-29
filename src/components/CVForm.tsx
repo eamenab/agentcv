@@ -258,7 +258,7 @@ export function CVForm({ onSubmitSuccess }: CVFormProps) {
         <div className="text-sm text-muted-foreground">
           <span>{t('submissions_remaining')} </span>
           <span className="font-bold">{remainingUses}</span>
-          <span> / {5}</span>
+          <span> / {3}</span>
         </div>
         
         <Button type="submit" disabled={isSubmitting || !canUse}>

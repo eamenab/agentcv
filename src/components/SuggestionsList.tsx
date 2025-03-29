@@ -137,24 +137,20 @@ export function SuggestionsList({ data }: SuggestionsListProps) {
           >
             <div className="flex flex-col md:flex-row gap-4">
               {/* Original version */}
-              <div className="flex-1 p-4">
-                <h4 className="text-lg font-serif mb-2 text-gray-800 dark:text-gray-200 flex items-center">
-                  {t('original')}
-                </h4>
+              <div className="flex-1 pt-4 px-4 pb-0">
+                <div className="flex justify-between items-center mb-2 min-h-[40px]">
+                  <h4 className="text-lg font-serif text-gray-800 dark:text-gray-200">
+                    {t('original')}
+                  </h4>
+                </div>
                 <div className="p-3 bg-red-50 dark:bg-red-900/20 rounded border-l-4 border-red-200 dark:border-red-800 min-h-[100px]">
                   <p>{suggestion.original}</p>
                 </div>
               </div>
-              
-              {/* Divider for mobile */}
-              <div className="notebook-line md:hidden"></div>
-              
-              {/* Divider for desktop */}
-              <div className="hidden md:block border-r border-gray-200 dark:border-gray-700 mx-2"></div>
-              
+
               {/* Suggested version */}
-              <div className="flex-1 p-4">
-                <div className="flex justify-between items-center mb-2">
+              <div className="flex-1 pt-4 px-4 pb-0">
+                <div className="flex justify-between items-center mb-2 min-h-[40px]">
                   <h4 className="text-lg font-serif text-gray-800 dark:text-gray-200">
                     {t('suggested_improvement')}
                   </h4>
@@ -172,7 +168,7 @@ export function SuggestionsList({ data }: SuggestionsListProps) {
                   </Button>
                 </div>
                 <div className="p-3 bg-green-50 dark:bg-green-900/20 rounded border-l-4 border-green-200 dark:border-green-800 min-h-[100px]">
-                  <p className="pen-annotation">{suggestion.suggested}</p>
+                  <p>{suggestion.suggested}</p>
                 </div>
               </div>
             </div>

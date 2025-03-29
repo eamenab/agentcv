@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 
 const LOCAL_STORAGE_KEY = 'agentcv_usage';
-const DAILY_LIMIT = 5; // Set daily limit to 5 requests
+const DAILY_LIMIT = 3; // Set daily limit to 5 requests
 
 export function useClientUsage() {
   const [usageData, setUsageData] = useState({
