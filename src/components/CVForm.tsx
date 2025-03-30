@@ -1,15 +1,20 @@
+
 import { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { useClientUsage } from "@/hooks/useClientUsage";
-import { Loader2, FileText, Link2, UploadCloud } from "lucide-react";
+import { Loader2, FileText, Link2, UploadCloud, Linkedin } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { Form, FormField, FormItem, FormLabel, FormControl, FormDescription } from "@/components/ui/form";
+import { useForm } from "react-hook-form";
 
 type InputSource = 'pdf' | 'gdoc';
+type JobSource = 'text' | 'linkedin';
 
 interface CVFormProps {
   onSubmitSuccess: (data: any) => void;
@@ -19,8 +24,11 @@ export function CVForm({ onSubmitSuccess }: CVFormProps) {
   const [cvUrl, setCvUrl] = useState("");
   const [cvFile, setCvFile] = useState<File | null>(null);
   const [jobDescription, setJobDescription] = useState("");
+  const [linkedinJobUrl, setLinkedinJobUrl] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isExtractingJob, setIsExtractingJob] = useState(false);
   const [inputSource, setInputSource] = useState<InputSource>("pdf"); // Default to PDF
+  const [jobSource, setJobSource] = useState<JobSource>("text"); // Default to text
   const fileInputRef = useRef<HTMLInputElement>(null);
   
   const { toast } = useToast();
@@ -49,6 +57,65 @@ export function CVForm({ onSubmitSuccess }: CVFormProps) {
     setCvUrl("");
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
+    }
+  };
+
+  const extractFromLinkedin = async () => {
+    if (!linkedinJobUrl || !linkedinJobUrl.includes('linkedin.com')) {
+      toast({
+        title: t('invalid_linkedin_url'),
+        description: t('please_enter_valid_linkedin'),
+        variant: "destructive",
+      });
+      return;
+    }
+
+    try {
+      setIsExtractingJob(true);
+      
+      const webhookUrl = import.meta.env.VITE_WEBHOOK_URL;
+      
+      if (!webhookUrl) {
+        throw new Error(t('webhook_error'));
+      }
+
+      // Send request to extract job description from LinkedIn URL
+      const response = await fetch(`${webhookUrl}/extract-linkedin`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          linkedin_url: linkedinJobUrl
+        }),
+      });
+      
+      if (!response.ok) {
+        throw new Error(`${t('extraction_error')}: ${response.status}`);
+      }
+
+      const data = await response.json();
+      
+      if (data.job_description) {
+        setJobDescription(data.job_description);
+        // Switch to text tab after extraction
+        setJobSource('text');
+        toast({
+          title: t('extraction_complete'),
+          description: t('linkedin_job_extracted'),
+        });
+      } else {
+        throw new Error(t('no_job_desc_found'));
+      }
+    } catch (error) {
+      console.error("Error extracting LinkedIn job:", error);
+      toast({
+        title: t('extraction_error'),
+        description: error instanceof Error ? error.message : t('extraction_error'),
+        variant: "destructive",
+      });
+    } finally {
+      setIsExtractingJob(false);
     }
   };
 
@@ -82,10 +149,19 @@ export function CVForm({ onSubmitSuccess }: CVFormProps) {
       return;
     }
 
-    if (!jobDescription) {
+    if (!jobDescription && jobSource === 'text') {
       toast({
         title: t('job_desc_required'),
         description: t('job_desc_required'),
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (!linkedinJobUrl && jobSource === 'linkedin') {
+      toast({
+        title: t('linkedin_url_required'),
+        description: t('linkedin_url_required'),
         variant: "destructive",
       });
       return;
@@ -109,6 +185,10 @@ export function CVForm({ onSubmitSuccess }: CVFormProps) {
         formData.append('job_description', jobDescription);
         formData.append('language', language);
         formData.append('inputSource', inputSource);
+        
+        if (jobSource === 'linkedin') {
+          formData.append('linkedin_url', linkedinJobUrl);
+        }
       
         response = await fetch(webhookUrl, {
           method: "POST",
@@ -124,6 +204,7 @@ export function CVForm({ onSubmitSuccess }: CVFormProps) {
           body: JSON.stringify({
             cv_url: cvUrl,
             job_description: jobDescription,
+            linkedin_url: jobSource === 'linkedin' ? linkedinJobUrl : null,
             language,
             inputSource,
           }),
@@ -156,8 +237,6 @@ export function CVForm({ onSubmitSuccess }: CVFormProps) {
 
   return (
     <form onSubmit={handleSubmit} className="notebook-page space-y-6">
-      {/* <div className="notebook-header">AgentCV · {t('app_tagline')}</div> */}
-
       {/* CV Input Section */}
       <div className="space-y-2">
         {inputSource === 'pdf' ? (
@@ -235,21 +314,68 @@ export function CVForm({ onSubmitSuccess }: CVFormProps) {
 
       <div className="notebook-line"></div>
 
-      <div className="space-y-2">
-        <label htmlFor="job-description" className="block font-medium text-foreground">
+      {/* Job Description Section with Tabs */}
+      <div className="space-y-4">
+        <div className="font-medium text-foreground">
           {t('job_description_label')}
-        </label>
-        <Textarea
-          id="job-description"
-          placeholder={t('job_description_placeholder')}
-          value={jobDescription}
-          onChange={(e) => setJobDescription(e.target.value)}
-          className="min-h-[150px] w-full border-2 hover:border-primary/50 focus:border-primary transition-colors"
-          disabled={isSubmitting}
-        />
-        <p className="text-xs text-muted-foreground">
-          {t('job_description_help')}
-        </p>
+        </div>
+        
+        <Tabs value={jobSource} onValueChange={(value) => setJobSource(value as JobSource)} className="w-full">
+          <TabsList className="grid w-full grid-cols-2">
+            <TabsTrigger value="text">{t('paste_job_description')}</TabsTrigger>
+            <TabsTrigger value="linkedin">{t('linkedin_job_url')}</TabsTrigger>
+          </TabsList>
+          
+          <TabsContent value="text" className="mt-4">
+            <Textarea
+              id="job-description"
+              placeholder={t('job_description_placeholder')}
+              value={jobDescription}
+              onChange={(e) => setJobDescription(e.target.value)}
+              className="min-h-[150px] w-full border-2 hover:border-primary/50 focus:border-primary transition-colors"
+              disabled={isSubmitting}
+            />
+            <p className="text-xs text-muted-foreground mt-2">
+              {t('job_description_help')}
+            </p>
+          </TabsContent>
+          
+          <TabsContent value="linkedin" className="mt-4">
+            <div className="space-y-4">
+              <div className="relative">
+                <Input
+                  id="linkedin-url"
+                  type="url"
+                  placeholder="https://www.linkedin.com/jobs/view/..."
+                  value={linkedinJobUrl}
+                  onChange={(e) => setLinkedinJobUrl(e.target.value)}
+                  className="w-full pl-10 border-2 hover:border-primary/50 focus:border-primary transition-colors"
+                  disabled={isSubmitting || isExtractingJob}
+                />
+                <Linkedin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" size={16} />
+              </div>
+              <Button 
+                type="button" 
+                variant="secondary" 
+                onClick={extractFromLinkedin}
+                disabled={isExtractingJob || !linkedinJobUrl}
+                className="w-full"
+              >
+                {isExtractingJob ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    {t('extracting')}
+                  </>
+                ) : (
+                  t('extract_job_details')
+                )}
+              </Button>
+              <p className="text-xs text-muted-foreground">
+                {t('linkedin_url_help')}
+              </p>
+            </div>
+          </TabsContent>
+        </Tabs>
       </div>
 
       <div className="notebook-line"></div>

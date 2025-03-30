@@ -46,6 +46,20 @@ const translations = {
     'analysis_complete': 'Analysis complete!',
     'check_suggestions': 'Check out the suggestions below to improve your CV.',
     
+    // LinkedIn Job URL functionality
+    'paste_job_description': 'Paste Text',
+    'linkedin_job_url': 'LinkedIn Job URL',
+    'extract_job_details': 'Extract Job Details',
+    'extracting': 'Extracting...',
+    'linkedin_url_help': 'Paste the LinkedIn job URL to automatically extract the job description',
+    'extraction_error': 'Error extracting job details',
+    'extraction_complete': 'Job details extracted',
+    'linkedin_job_extracted': 'Job description has been successfully extracted from LinkedIn',
+    'invalid_linkedin_url': 'Invalid LinkedIn URL',
+    'please_enter_valid_linkedin': 'Please enter a valid LinkedIn job URL',
+    'linkedin_url_required': 'LinkedIn job URL required',
+    'no_job_desc_found': 'No job description found in the LinkedIn post',
+    
     // Suggestions
     'overall_feedback': 'Overall Feedback',
     'key_skills': "Key Skills",
@@ -119,6 +133,20 @@ const translations = {
     'submission_error': 'Error al enviar el formulario',
     'analysis_complete': '¡Análisis completado!',
     'check_suggestions': 'Revisa las sugerencias a continuación para mejorar tu CV.',
+    
+    // LinkedIn Job URL functionality
+    'paste_job_description': 'Pegar texto',
+    'linkedin_job_url': 'URL de trabajo en LinkedIn',
+    'extract_job_details': 'Extraer detalles del trabajo',
+    'extracting': 'Extrayendo...',
+    'linkedin_url_help': 'Pega la URL del trabajo de LinkedIn para extraer automáticamente la descripción',
+    'extraction_error': 'Error al extraer detalles del trabajo',
+    'extraction_complete': 'Detalles del trabajo extraídos',
+    'linkedin_job_extracted': 'La descripción del trabajo ha sido extraída exitosamente de LinkedIn',
+    'invalid_linkedin_url': 'URL de LinkedIn inválida',
+    'please_enter_valid_linkedin': 'Por favor ingrese una URL de trabajo de LinkedIn válida',
+    'linkedin_url_required': 'Se requiere URL de trabajo de LinkedIn',
+    'no_job_desc_found': 'No se encontró descripción del trabajo en la publicación de LinkedIn',
     
     // Suggestions
     'overall_feedback': 'Comentarios Generales',
