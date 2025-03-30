@@ -5,7 +5,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { useClientUsage } from "@/hooks/useClientUsage";
-import { Loader2, FileText, Link2, UploadCloud, Linkedin } from "lucide-react";
+import { Loader2, FileText, Link2, UploadCloud, Briefcase } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
@@ -66,7 +66,7 @@ export function CVForm({ onSubmitSuccess }: CVFormProps) {
   };
 
   const validateLinkedinUrl = (url: string): boolean => {
-    return url.includes('linkedin.com');
+    return url.includes('linkedin.com/jobs/view/');
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -297,7 +297,7 @@ export function CVForm({ onSubmitSuccess }: CVFormProps) {
                 className="w-full pl-10 border-2 hover:border-primary/50 focus:border-primary transition-colors"
                 disabled={isSubmitting}
               />
-              <Linkedin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" size={16} />
+              <Briefcase className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" size={16} />
             </div>
             <p className="text-xs text-muted-foreground">
               {t('linkedin_url_help')}
