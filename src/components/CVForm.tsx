@@ -13,7 +13,7 @@ import { Form, FormField, FormItem, FormLabel, FormControl, FormDescription } fr
 import { useForm } from "react-hook-form";
 
 type InputSource = 'pdf' | 'gdoc';
-type JobSource = 'text' | 'linkedin';
+type JobSource = 'linkedin' | 'text';
 
 interface CVFormProps {
   onSubmitSuccess: (data: any) => void;
@@ -25,9 +25,8 @@ export function CVForm({ onSubmitSuccess }: CVFormProps) {
   const [jobDescription, setJobDescription] = useState("");
   const [linkedinJobUrl, setLinkedinJobUrl] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isExtractingJob, setIsExtractingJob] = useState(false);
   const [inputSource, setInputSource] = useState<InputSource>("pdf"); // Default to PDF
-  const [jobSource, setJobSource] = useState<JobSource>("text"); // Default to text
+  const [jobSource, setJobSource] = useState<JobSource>("linkedin"); // Default to LinkedIn
   const fileInputRef = useRef<HTMLInputElement>(null);
   
   const { toast } = useToast();
@@ -60,70 +59,15 @@ export function CVForm({ onSubmitSuccess }: CVFormProps) {
   };
   
   const toggleJobSource = () => {
-    setJobSource(jobSource === 'text' ? 'linkedin' : 'text');
+    setJobSource(jobSource === 'linkedin' ? 'text' : 'linkedin');
     // Clear both inputs when switching
     setJobDescription("");
     setLinkedinJobUrl("");
   };
 
-  const extractFromLinkedin = async () => {
-    if (!linkedinJobUrl || !linkedinJobUrl.includes('linkedin.com')) {
-      toast({
-        title: t('invalid_linkedin_url'),
-        description: t('please_enter_valid_linkedin'),
-        variant: "destructive",
-      });
-      return;
-    }
-
-    try {
-      setIsExtractingJob(true);
-      
-      const webhookUrl = import.meta.env.VITE_WEBHOOK_URL;
-      
-      if (!webhookUrl) {
-        throw new Error(t('webhook_error'));
-      }
-
-      // Send request to extract job description from LinkedIn URL
-      const response = await fetch(`${webhookUrl}/extract-linkedin`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          linkedin_url: linkedinJobUrl
-        }),
-      });
-      
-      if (!response.ok) {
-        throw new Error(`${t('extraction_error')}: ${response.status}`);
-      }
-
-      const data = await response.json();
-      
-      if (data.job_description) {
-        setJobDescription(data.job_description);
-        // Switch to text tab after extraction
-        setJobSource('text');
-        toast({
-          title: t('extraction_complete'),
-          description: t('linkedin_job_extracted'),
-        });
-      } else {
-        throw new Error(t('no_job_desc_found'));
-      }
-    } catch (error) {
-      console.error("Error extracting LinkedIn job:", error);
-      toast({
-        title: t('extraction_error'),
-        description: error instanceof Error ? error.message : t('extraction_error'),
-        variant: "destructive",
-      });
-    } finally {
-      setIsExtractingJob(false);
-    }
-  };
+  const validateLinkedinUrl = (url: string): boolean => {
+    return url.includes('linkedin.com');
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -155,7 +99,7 @@ export function CVForm({ onSubmitSuccess }: CVFormProps) {
       return;
     }
 
-    if (!jobDescription && jobSource === 'text') {
+    if (jobSource === 'text' && !jobDescription) {
       toast({
         title: t('job_desc_required'),
         description: t('job_desc_required'),
@@ -164,13 +108,24 @@ export function CVForm({ onSubmitSuccess }: CVFormProps) {
       return;
     }
 
-    if (!linkedinJobUrl && jobSource === 'linkedin') {
-      toast({
-        title: t('linkedin_url_required'),
-        description: t('linkedin_url_required'),
-        variant: "destructive",
-      });
-      return;
+    if (jobSource === 'linkedin') {
+      if (!linkedinJobUrl) {
+        toast({
+          title: t('linkedin_url_required'),
+          description: t('linkedin_url_required'),
+          variant: "destructive",
+        });
+        return;
+      }
+      
+      if (!validateLinkedinUrl(linkedinJobUrl)) {
+        toast({
+          title: t('invalid_linkedin_url'),
+          description: t('please_enter_valid_linkedin'),
+          variant: "destructive",
+        });
+        return;
+      }
     }
 
     try {
@@ -188,13 +143,16 @@ export function CVForm({ onSubmitSuccess }: CVFormProps) {
         // Handle PDF file upload
         const formData = new FormData();
         formData.append('cv_file', cvFile as File);
-        formData.append('job_description', jobDescription);
-        formData.append('language', language);
-        formData.append('inputSource', inputSource);
         
-        if (jobSource === 'linkedin') {
+        if (jobSource === 'text') {
+          formData.append('job_description', jobDescription);
+        } else {
           formData.append('linkedin_url', linkedinJobUrl);
         }
+        
+        formData.append('language', language);
+        formData.append('inputSource', inputSource);
+        formData.append('jobSource', jobSource);
       
         response = await fetch(webhookUrl, {
           method: "POST",
@@ -209,10 +167,11 @@ export function CVForm({ onSubmitSuccess }: CVFormProps) {
           },
           body: JSON.stringify({
             cv_url: cvUrl,
-            job_description: jobDescription,
+            job_description: jobSource === 'text' ? jobDescription : null,
             linkedin_url: jobSource === 'linkedin' ? linkedinJobUrl : null,
             language,
             inputSource,
+            jobSource,
           }),
         });
       }
@@ -326,7 +285,25 @@ export function CVForm({ onSubmitSuccess }: CVFormProps) {
           {t('job_description_label')}
         </div>
         
-        {jobSource === 'text' ? (
+        {jobSource === 'linkedin' ? (
+          <div className="space-y-2">
+            <div className="relative">
+              <Input
+                id="linkedin-url"
+                type="url"
+                placeholder="https://www.linkedin.com/jobs/view/..."
+                value={linkedinJobUrl}
+                onChange={(e) => setLinkedinJobUrl(e.target.value)}
+                className="w-full pl-10 border-2 hover:border-primary/50 focus:border-primary transition-colors"
+                disabled={isSubmitting}
+              />
+              <Linkedin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" size={16} />
+            </div>
+            <p className="text-xs text-muted-foreground">
+              {t('linkedin_url_help')}
+            </p>
+          </div>
+        ) : (
           <div className="space-y-2">
             <Textarea
               id="job-description"
@@ -340,50 +317,16 @@ export function CVForm({ onSubmitSuccess }: CVFormProps) {
               {t('job_description_help')}
             </p>
           </div>
-        ) : (
-          <div className="space-y-4">
-            <div className="relative">
-              <Input
-                id="linkedin-url"
-                type="url"
-                placeholder="https://www.linkedin.com/jobs/view/..."
-                value={linkedinJobUrl}
-                onChange={(e) => setLinkedinJobUrl(e.target.value)}
-                className="w-full pl-10 border-2 hover:border-primary/50 focus:border-primary transition-colors"
-                disabled={isSubmitting || isExtractingJob}
-              />
-              <Linkedin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" size={16} />
-            </div>
-            <Button 
-              type="button" 
-              variant="secondary" 
-              onClick={extractFromLinkedin}
-              disabled={isExtractingJob || !linkedinJobUrl}
-              className="w-full"
-            >
-              {isExtractingJob ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  {t('extracting')}
-                </>
-              ) : (
-                t('extract_job_details')
-              )}
-            </Button>
-            <p className="text-xs text-muted-foreground">
-              {t('linkedin_url_help')}
-            </p>
-          </div>
         )}
         
-        {/* Toggle between Text and LinkedIn */}
+        {/* Toggle between LinkedIn and Text */}
         <div className="pt-2 flex items-center justify-end space-x-2">
           <Label htmlFor="job-toggle" className="text-sm cursor-pointer">
-            {jobSource === 'text' ? t('use_linkedin_url') : t('use_text_input')}
+            {jobSource === 'linkedin' ? t('use_text_input') : t('use_linkedin_url')}
           </Label>
           <Switch 
             id="job-toggle" 
-            checked={jobSource === 'linkedin'} 
+            checked={jobSource === 'text'} 
             onCheckedChange={toggleJobSource} 
           />
         </div>
