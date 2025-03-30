@@ -9,7 +9,6 @@ import { Loader2, FileText, Link2, UploadCloud, Linkedin } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Form, FormField, FormItem, FormLabel, FormControl, FormDescription } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 
@@ -58,6 +57,13 @@ export function CVForm({ onSubmitSuccess }: CVFormProps) {
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
     }
+  };
+  
+  const toggleJobSource = () => {
+    setJobSource(jobSource === 'text' ? 'linkedin' : 'text');
+    // Clear both inputs when switching
+    setJobDescription("");
+    setLinkedinJobUrl("");
   };
 
   const extractFromLinkedin = async () => {
@@ -314,19 +320,14 @@ export function CVForm({ onSubmitSuccess }: CVFormProps) {
 
       <div className="notebook-line"></div>
 
-      {/* Job Description Section with Tabs */}
+      {/* Job Description Section with Toggle */}
       <div className="space-y-4">
         <div className="font-medium text-foreground">
           {t('job_description_label')}
         </div>
         
-        <Tabs value={jobSource} onValueChange={(value) => setJobSource(value as JobSource)} className="w-full">
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="text">{t('paste_job_description')}</TabsTrigger>
-            <TabsTrigger value="linkedin">{t('linkedin_job_url')}</TabsTrigger>
-          </TabsList>
-          
-          <TabsContent value="text" className="mt-4">
+        {jobSource === 'text' ? (
+          <div className="space-y-2">
             <Textarea
               id="job-description"
               placeholder={t('job_description_placeholder')}
@@ -335,47 +336,57 @@ export function CVForm({ onSubmitSuccess }: CVFormProps) {
               className="min-h-[150px] w-full border-2 hover:border-primary/50 focus:border-primary transition-colors"
               disabled={isSubmitting}
             />
-            <p className="text-xs text-muted-foreground mt-2">
+            <p className="text-xs text-muted-foreground">
               {t('job_description_help')}
             </p>
-          </TabsContent>
-          
-          <TabsContent value="linkedin" className="mt-4">
-            <div className="space-y-4">
-              <div className="relative">
-                <Input
-                  id="linkedin-url"
-                  type="url"
-                  placeholder="https://www.linkedin.com/jobs/view/..."
-                  value={linkedinJobUrl}
-                  onChange={(e) => setLinkedinJobUrl(e.target.value)}
-                  className="w-full pl-10 border-2 hover:border-primary/50 focus:border-primary transition-colors"
-                  disabled={isSubmitting || isExtractingJob}
-                />
-                <Linkedin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" size={16} />
-              </div>
-              <Button 
-                type="button" 
-                variant="secondary" 
-                onClick={extractFromLinkedin}
-                disabled={isExtractingJob || !linkedinJobUrl}
-                className="w-full"
-              >
-                {isExtractingJob ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    {t('extracting')}
-                  </>
-                ) : (
-                  t('extract_job_details')
-                )}
-              </Button>
-              <p className="text-xs text-muted-foreground">
-                {t('linkedin_url_help')}
-              </p>
+          </div>
+        ) : (
+          <div className="space-y-4">
+            <div className="relative">
+              <Input
+                id="linkedin-url"
+                type="url"
+                placeholder="https://www.linkedin.com/jobs/view/..."
+                value={linkedinJobUrl}
+                onChange={(e) => setLinkedinJobUrl(e.target.value)}
+                className="w-full pl-10 border-2 hover:border-primary/50 focus:border-primary transition-colors"
+                disabled={isSubmitting || isExtractingJob}
+              />
+              <Linkedin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" size={16} />
             </div>
-          </TabsContent>
-        </Tabs>
+            <Button 
+              type="button" 
+              variant="secondary" 
+              onClick={extractFromLinkedin}
+              disabled={isExtractingJob || !linkedinJobUrl}
+              className="w-full"
+            >
+              {isExtractingJob ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  {t('extracting')}
+                </>
+              ) : (
+                t('extract_job_details')
+              )}
+            </Button>
+            <p className="text-xs text-muted-foreground">
+              {t('linkedin_url_help')}
+            </p>
+          </div>
+        )}
+        
+        {/* Toggle between Text and LinkedIn */}
+        <div className="pt-2 flex items-center justify-end space-x-2">
+          <Label htmlFor="job-toggle" className="text-sm cursor-pointer">
+            {jobSource === 'text' ? t('use_linkedin_url') : t('use_text_input')}
+          </Label>
+          <Switch 
+            id="job-toggle" 
+            checked={jobSource === 'linkedin'} 
+            onCheckedChange={toggleJobSource} 
+          />
+        </div>
       </div>
 
       <div className="notebook-line"></div>
