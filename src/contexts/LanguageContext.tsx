@@ -67,6 +67,10 @@ const translations = {
     'step_2': 'Add the job description you\'re applying for',
     'step_3': 'Get tailored suggestions to improve your CV',
     'step_4': 'Apply the changes directly to your document',
+
+    // Like this page
+    'like_this_page': 'Like this page?',
+    'contact_me_at': 'Contact me at',
     
     // Dashboard
     'welcome_dashboard': 'Welcome to Your Dashboard',
@@ -137,6 +141,10 @@ const translations = {
     'step_2': 'Agrega la descripción del trabajo al que estás aplicando',
     'step_3': 'Obtén sugerencias personalizadas para mejorar tu CV',
     'step_4': 'Aplica los cambios directamente a tu documento',
+
+    // Like this page
+    'like_this_page': '¿Te gusta está página?',
+    'contact_me_at': 'Contáctame en',
     
     // Dashboard
     'welcome_dashboard': 'Bienvenido a tu Panel',
