@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
 type Language = 'es' | 'en';
@@ -98,7 +97,13 @@ const translations = {
     'tip_4': 'Implement suggestions and resubmit for further improvements',
     
     // Footer
-    'all_rights_reserved': 'All rights reserved.'
+    'all_rights_reserved': 'All rights reserved.',
+    // Progress modal messages
+    'progress_cv': 'Analyzing CV',
+    'progress_offer': 'Analyzing Job',
+    'progress_suggestions': 'Creating suggestions',
+    'progress_match': 'Establishing compatibility',
+    'progress_complete': 'Completed',
   },
   es: {
     // Header
@@ -125,8 +130,8 @@ const translations = {
     'job_description_help': 'La descripción del trabajo ayudará a adaptar las sugerencias al rol específico',
     'analyzing': 'Analizando...',
     'get_suggestions': 'Obtener sugerencias para CV',
-    'use_google_docs': 'Usar URL de Google Docs en su lugar',
-    'use_pdf_upload': 'Subir PDF en su lugar',
+    'use_google_docs': 'Cambiar a link de google doc',
+    'use_pdf_upload': 'Cambiar a PDF',
     'url_required': 'URL de Google Docs requerida',
     'file_required': 'Archivo CV requerido',
     'job_desc_required': 'Descripción del trabajo requerida',
@@ -149,8 +154,8 @@ const translations = {
     'please_enter_valid_linkedin': 'Por favor ingrese una URL de trabajo de LinkedIn válida, asegurate que sea la url pública',
     'linkedin_url_required': 'Se requiere URL de trabajo de LinkedIn',
     'no_job_desc_found': 'No se encontró descripción del trabajo en la publicación de LinkedIn, asegurate que sea la url pública',
-    'use_text_input': 'Usar descripción en su lugar',
-    'use_linkedin_url': 'Usar link de linkedin en su lugar',
+    'use_text_input': 'Cambiar a descripción',
+    'use_linkedin_url': 'Cambiar a link de linkedin',
     
     // Suggestions
     'overall_feedback': 'Comentarios Generales',
@@ -188,7 +193,13 @@ const translations = {
     'tip_4': 'Implementa las sugerencias y vuelve a enviar para obtener más mejoras',
     
     // Footer
-    'all_rights_reserved': 'Todos los derechos reservados.'
+    'all_rights_reserved': 'Todos los derechos reservados.',
+    // Progress modal messages
+    'progress_cv': 'Analizando CV',
+    'progress_offer': 'Analizando Oferta',
+    'progress_suggestions': 'Creando sugerencias',
+    'progress_match': 'Estableciendo compatibilidad',
+    'progress_complete': 'Completado',
   }
 };
 
